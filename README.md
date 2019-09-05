@@ -78,7 +78,7 @@ python3 test.py --train_input /path/to/input/folder/of/train/set
 **--train_label**: The path to the label folder of training set, instances should be end with '.json' and have the same name as the corresponding input. The example input file is 
 shown in example-label.json.<br/>
 **--test_input**: The path to the input folder of test set, instances should be end with '.json', and the example input file is shown in example-input.json.<br/>
-**--val_label**: The path to the label folder of test set, instances should be end with '.json', and have the same name as the corresponding input. The example input file is shown in 
+**--test_label**: The path to the label folder of test set, instances should be end with '.json', and have the same name as the corresponding input. The example input file is shown in 
 example-label.json.<br/>
 **--ref_path**: The path to the reference folder of the test, instances should be end with '.txt', and have the same name as the corresponding input. The example input file is shown 
 in example-abstract.txt.<br/>
