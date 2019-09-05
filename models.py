@@ -49,29 +49,34 @@ class Bsl1(nn.Module):
 
     def predict(self, score_batch, ids, input_lengths, length_limit, filenames,hyp_path):
         #score_batch = [batch,seq_len]
+        correct_num = 0
         summaryfile_batch = []
+        all_ids=[]
         for i in range(len(input_lengths)):
             summary = []
+            selected_ids = []
             scores = score_batch[i,:(input_lengths[i]-1)]
-
             sorted_linenum = [x for _,x in sorted(zip(scores,list(range(input_lengths[i]))),reverse=True)]
-
             fn = filenames[i]
             with fn.open() as of:
                 inputs = json.load(of)['inputs']
             wc = 0
             for j in sorted_linenum:
                 summary.append(inputs[j]['text'])
+                selected_ids.append(j)
                 wc+=inputs[j]['word_count']
                 if wc>=length_limit:
                     break
             summary='\n'.join(summary)
+
+            all_ids.append(selected_ids)
             fname = hyp_path+ids[i]+'.txt'
             of = open(fname,'w')
             of.write(summary)
             summaryfile_batch.append(fname)
-        return summaryfile_batch
+        return summaryfile_batch,all_ids
 
+# BSL1 + local
 class Bsl2(nn.Module):
     def __init__(self,input_size,hidden_size, mlp_size, cell_type='gru'):
         super(Bsl2, self).__init__()
@@ -140,17 +145,15 @@ class Bsl2(nn.Module):
 
     def predict(self, score_batch, ids, input_lengths, length_limit, filenames,hyp_path):
         #score_batch = [batch,seq_len]
-
         correct_num = 0
         summaryfile_batch = []
-        all_ids = []
+        all_ids=[]
         for i in range(len(input_lengths)):
             summary = []
- 
+            selected_ids = []
             scores = score_batch[i,:(input_lengths[i]-1)]
             sorted_linenum = [x for _,x in sorted(zip(scores,list(range(input_lengths[i]))),reverse=True)]
             fn = filenames[i]
-            selected_ids = []
             with fn.open() as of:
                 inputs = json.load(of)['inputs']
             wc = 0
@@ -168,7 +171,8 @@ class Bsl2(nn.Module):
             of.write(summary)
             summaryfile_batch.append(fname)
         return summaryfile_batch,all_ids
-
+        
+# BSL1 + global
 class Bsl3(nn.Module):
     def __init__(self,input_size,hidden_size, mlp_size, cell_type='gru'):
         super(Bsl3, self).__init__()
@@ -201,7 +205,6 @@ class Bsl3(nn.Module):
         seq_length = output.size()[0]
         doc_represent = hidden.contiguous().view(hidden.size()[0],2*hidden.size()[2])
         # doc_representation =[batch, 2*hidden_size]
-
         doc_represent = doc_represent.expand(seq_length,-1,-1)
         doc_represent = self.dropout_layer(doc_represent)
 
@@ -216,29 +219,32 @@ class Bsl3(nn.Module):
 
     def predict(self, score_batch, ids, input_lengths, length_limit, filenames,hyp_path):
         #score_batch = [batch,seq_len]
-
+        correct_num = 0
         summaryfile_batch = []
+        all_ids=[]
         for i in range(len(input_lengths)):
             summary = []
+            selected_ids = []
             scores = score_batch[i,:(input_lengths[i]-1)]
-
             sorted_linenum = [x for _,x in sorted(zip(scores,list(range(input_lengths[i]))),reverse=True)]
-
             fn = filenames[i]
             with fn.open() as of:
                 inputs = json.load(of)['inputs']
             wc = 0
             for j in sorted_linenum:
                 summary.append(inputs[j]['text'])
+                selected_ids.append(j)
                 wc+=inputs[j]['word_count']
                 if wc>=length_limit:
                     break
             summary='\n'.join(summary)
+
+            all_ids.append(selected_ids)
             fname = hyp_path+ids[i]+'.txt'
             of = open(fname,'w')
             of.write(summary)
             summaryfile_batch.append(fname)
-        return summaryfile_batch
+        return summaryfile_batch,all_ids
 
 # Concatenation decoder
 class Concatenation(nn.Module):
@@ -313,29 +319,32 @@ class Concatenation(nn.Module):
 
     def predict(self, score_batch, ids, input_lengths, length_limit, filenames,hyp_path):
         #score_batch = [batch,seq_len]
-
+        correct_num = 0
         summaryfile_batch = []
+        all_ids=[]
         for i in range(len(input_lengths)):
             summary = []
+            selected_ids = []
             scores = score_batch[i,:(input_lengths[i]-1)]
-
             sorted_linenum = [x for _,x in sorted(zip(scores,list(range(input_lengths[i]))),reverse=True)]
-
             fn = filenames[i]
             with fn.open() as of:
                 inputs = json.load(of)['inputs']
             wc = 0
             for j in sorted_linenum:
                 summary.append(inputs[j]['text'])
+                selected_ids.append(j)
                 wc+=inputs[j]['word_count']
                 if wc>=length_limit:
                     break
             summary='\n'.join(summary)
+
+            all_ids.append(selected_ids)
             fname = hyp_path+ids[i]+'.txt'
             of = open(fname,'w')
             of.write(summary)
             summaryfile_batch.append(fname)
-        return summaryfile_batch
+        return summaryfile_batch,all_ids
 
 # # Attentive context decoder
 class Attentive_context(nn.Module):
@@ -432,18 +441,17 @@ class Attentive_context(nn.Module):
         out = self.final_layer(mlp_out)
         return out
 
-    def predict(self, score_batch, ids, input_lengths, length_limit, filenames,hyp_path,attn_weight = None):
+    def predict(self, score_batch, ids, input_lengths, length_limit, filenames,hyp_path):
         #score_batch = [batch,seq_len]
         correct_num = 0
         summaryfile_batch = []
-        all_ids = []
+        all_ids=[]
         for i in range(len(input_lengths)):
             summary = []
- 
+            selected_ids = []
             scores = score_batch[i,:(input_lengths[i]-1)]
             sorted_linenum = [x for _,x in sorted(zip(scores,list(range(input_lengths[i]))),reverse=True)]
             fn = filenames[i]
-            selected_ids = [] 
             with fn.open() as of:
                 inputs = json.load(of)['inputs']
             wc = 0
@@ -605,29 +613,32 @@ class ChengAndLapataSentenceExtractor(nn.Module):
 
     def predict(self, score_batch, ids, input_lengths, length_limit, filenames,hyp_path):
         #score_batch = [batch,seq_len]
-
+        correct_num = 0
         summaryfile_batch = []
+        all_ids=[]
         for i in range(len(input_lengths)):
             summary = []
+            selected_ids = []
             scores = score_batch[i,:(input_lengths[i]-1)]
-
             sorted_linenum = [x for _,x in sorted(zip(scores,list(range(input_lengths[i]))),reverse=True)]
-
             fn = filenames[i]
             with fn.open() as of:
                 inputs = json.load(of)['inputs']
             wc = 0
             for j in sorted_linenum:
                 summary.append(inputs[j]['text'])
+                selected_ids.append(j)
                 wc+=inputs[j]['word_count']
                 if wc>=length_limit:
                     break
             summary='\n'.join(summary)
+
+            all_ids.append(selected_ids)
             fname = hyp_path+ids[i]+'.txt'
             of = open(fname,'w')
             of.write(summary)
             summaryfile_batch.append(fname)
-        return summaryfile_batch
+        return summaryfile_batch,all_ids
 
 # SummaRunner, borrowed from https://github.com/kedz/nnsum/tree/emnlp18-release
 class SummaRunnerSentenceExtractor(nn.Module):

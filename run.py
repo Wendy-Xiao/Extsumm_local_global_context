@@ -34,6 +34,7 @@ def train_seq2seq_batch(data_batch, model, optimizer,pos_weight,device,use_secti
 	indicators = data_batch['indicators']
 	padded_lengths = data_batch['padded_lengths']
 
+	# Section information
 	total_data = torch.sum(input_length)
 	end = torch.clamp(torch.cumsum(padded_lengths,1),0,input_length[0])
 	begin = torch.cat((torch.zeros((len(input_length),1),dtype=torch.long),end[:,:-1]),1)
@@ -131,7 +132,6 @@ def eval_seq2seq_batch(sigmoid,data_batch,model,hyp_path,length_limit,pos_weight
 
 	if use_section_info:
 		out= model(document,input_length,indicators,begin,end,device)
-
 	else:
 		out = model(document,input_length,device)
 
