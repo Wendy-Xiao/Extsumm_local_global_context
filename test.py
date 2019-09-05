@@ -85,8 +85,15 @@ if args.train_file_list:
 if args.test_file_list:
     test_input_dir = make_file_list(test_input_dir,args.test_file_list)
 
-with open('vocabulary_%s.json'%(args.dataset),'r') as f:
-    w2v = json.load(f)
+if 'vocabulary_%s.json'%(args.dataset) in [path.name for path in Path('./').glob('*.json')]:
+    with open('vocabulary_%s.json'%(args.dataset),'r') as f:
+        w2v = json.load(f)
+    print('Load vocabulary from vocabulary_%s.json'%(args.dataset))
+else: 
+    all_tokens=get_all_text(train_input_dir)
+    w2v = build_word2ind(all_tokens, VOCABULARY_SIZE)
+    with open('vocabulary_%s.json'%(args.dataset),'w') as f:
+        json.dump(w2v,f)
 
 # Get the postive weight to compute the weighted loss
 pos_weight = get_posweight(train_label_dir,args.train_file_list)

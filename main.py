@@ -41,7 +41,7 @@ parser.add_argument("--runtime", type=int, default = 0, help = "Index of this mo
 parser.add_argument("--gloveDir", type=str, default = './', help = "Directory storing glove embedding")
 parser.add_argument("--refpath", type=str, default = './human-abstracts/', help = "Directory storing human abstracts")
 parser.add_argument("--vocab_size", type=int, default = 50000, help = "vocabulary size")
-parser.add_argument("--device", type=int, default = 1, help = "device used to compute")
+parser.add_argument("--device", type=int, default = 0, help = "device used to compute")
 parser.add_argument("--remove_stopwords", action='store_true', help = "if add this flag, then set remove_stopwords to be true")
 parser.add_argument("--stemmer", action='store_true', help = "if add this flag, then set stemmer to be true")
 parser.add_argument("--seed", type=int, default=None, help= "Set the seed of pytorch, so that you can regenerate the result.")
@@ -94,6 +94,7 @@ train_input_dir = args.train_input
 train_label_dir = args.train_label
 val_input_dir = args.val_input
 val_label_dir = args.val_label
+
 if args.train_file_list:
     train_input_dir = make_file_list(train_input_dir,args.train_file_list)
 if args.val_file_list:
