@@ -146,24 +146,3 @@ def get_meteor(hyp_pathlist,ref_pathlist,model_type):
     of.close()
 
 
-if __name__ == '__main__':
-    # oracle_path = '/scratch/wenxiao/pubmed/oracle/test/'
-    # abstract_path = '/scratch/wenxiao/pubmed/human-abstracts/test/'
-    # lead_path = '/scratch/wenxiao/pubmed/lead/test/'
-    oracle_path = '/ubc/cs/research/nlp/wenxiao/official_code/test_hyp/oracle-bigpatent_a/'
-    lead_path = '/ubc/cs/research/nlp/wenxiao/official_code/test_hyp/lead-bigpatent_a/'
-    abstract_path = '/scratch/wenxiao/bigpatent/bigPatentData_splitted/a/human-abstracts/test/'
-
-    d = Path(oracle_path)
-    uttnames = [str(path.stem) for path in d.glob("*.txt")]
-    lead_pathlist = []
-    oracle_pathlist = []
-    ref_pathlist = []
-    for n in uttnames:
-        lead_pathlist.append(lead_path+n+'.txt')
-        oracle_pathlist.append(oracle_path+n+'.txt')
-        ref_pathlist.append(abstract_path+n+'.txt')
-
-    get_meteor(oracle_pathlist,ref_pathlist,'oracle')
-    get_meteor(lead_pathlist,ref_pathlist,'lead')
-
