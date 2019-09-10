@@ -8,6 +8,8 @@ Make sure you have python 3.6 and pytorch installed.
 First need to install the tool rouge_papier_v2. Direct to folder 'rouge_papier_v2', and then 'python setup.py install'. <br/>
 (This is a modified version from https://github.com/kedz/rouge_papier)
 
+Other dependencies needed: nltk->word_tokenizer, numpy, pandas
+
 The data should in the same form as example-input.json, example-label.json and example-abstract.txt.
 
 ## Data
