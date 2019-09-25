@@ -13,7 +13,8 @@ Other dependencies needed: nltk->word_tokenizer, numpy, pandas
 The data should in the same form as example-input.json, example-label.json and example-abstract.txt.
 
 ## Data
-Coming soon
+The original data: https://github.com/armancohan/long-summarization.
+Our preprocessed data: <a href = 'https://drive.google.com/file/d/1rJeEYJmpqhNOgOIfB3B2yxraL2WEsV4g/view?usp=sharing'>arxiv</a>
 
 
 ## Train
