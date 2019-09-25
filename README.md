@@ -15,7 +15,6 @@ The data should in the same form as example-input.json, example-label.json and e
 ## Data
 The original data: https://github.com/armancohan/long-summarization.<br/>
 Our preprocessed data: <a href = 'https://drive.google.com/file/d/1rJeEYJmpqhNOgOIfB3B2yxraL2WEsV4g/view?usp=sharing'>arXiv</a>,<a href='https://drive.google.com/file/d/1v4quWNb4ujVrzLhdDsAyyTiHKdrC4Dg8/view?usp=sharing'>Pubmed</a> <br/>
-The example format of our preprocessed data: example-input.json, example-label.json, example-abstract.json
 
 ## Train
 To train the model, just type 
