@@ -55,7 +55,7 @@ class Bsl1(nn.Module):
         for i in range(len(input_lengths)):
             summary = []
             selected_ids = []
-            scores = score_batch[i,:(input_lengths[i]-1)]
+            scores = score_batch[i,:(input_lengths[i])]
             sorted_linenum = [x for _,x in sorted(zip(scores,list(range(input_lengths[i]))),reverse=True)]
             fn = filenames[i]
             with fn.open() as of:
@@ -151,7 +151,7 @@ class Bsl2(nn.Module):
         for i in range(len(input_lengths)):
             summary = []
             selected_ids = []
-            scores = score_batch[i,:(input_lengths[i]-1)]
+            scores = score_batch[i,:(input_lengths[i])]
             sorted_linenum = [x for _,x in sorted(zip(scores,list(range(input_lengths[i]))),reverse=True)]
             fn = filenames[i]
             with fn.open() as of:
@@ -225,7 +225,7 @@ class Bsl3(nn.Module):
         for i in range(len(input_lengths)):
             summary = []
             selected_ids = []
-            scores = score_batch[i,:(input_lengths[i]-1)]
+            scores = score_batch[i,:(input_lengths[i])]
             sorted_linenum = [x for _,x in sorted(zip(scores,list(range(input_lengths[i]))),reverse=True)]
             fn = filenames[i]
             with fn.open() as of:
@@ -325,7 +325,7 @@ class Concatenation(nn.Module):
         for i in range(len(input_lengths)):
             summary = []
             selected_ids = []
-            scores = score_batch[i,:(input_lengths[i]-1)]
+            scores = score_batch[i,:(input_lengths[i])]
             sorted_linenum = [x for _,x in sorted(zip(scores,list(range(input_lengths[i]))),reverse=True)]
             fn = filenames[i]
             with fn.open() as of:
@@ -449,7 +449,7 @@ class Attentive_context(nn.Module):
         for i in range(len(input_lengths)):
             summary = []
             selected_ids = []
-            scores = score_batch[i,:(input_lengths[i]-1)]
+            scores = score_batch[i,:(input_lengths[i])]
             sorted_linenum = [x for _,x in sorted(zip(scores,list(range(input_lengths[i]))),reverse=True)]
             fn = filenames[i]
             with fn.open() as of:
@@ -619,7 +619,7 @@ class ChengAndLapataSentenceExtractor(nn.Module):
         for i in range(len(input_lengths)):
             summary = []
             selected_ids = []
-            scores = score_batch[i,:(input_lengths[i]-1)]
+            scores = score_batch[i,:(input_lengths[i])]
             sorted_linenum = [x for _,x in sorted(zip(scores,list(range(input_lengths[i]))),reverse=True)]
             fn = filenames[i]
             with fn.open() as of:
@@ -778,7 +778,7 @@ class SummaRunnerSentenceExtractor(nn.Module):
         for i in range(len(input_lengths)):
             summary = []
  
-            scores = score_batch[i,:(input_lengths[i]-1)]
+            scores = score_batch[i,:(input_lengths[i])]
             sorted_linenum = [x for _,x in sorted(zip(scores,list(range(input_lengths[i]))),reverse=True)]
             fn = filenames[i]
             selected_ids = []
