@@ -14,9 +14,9 @@ def compute_rouge(config_path, show_all=True, max_ngram=4, lcs=False,
                   number_of_samples=1000, scoring_formula="A",
                   remove_stopwords=False, return_conf=False):
     rouge_path = pkg_resources.resource_filename(
-        'rouge_papier', os.path.join('data', 'ROUGE-1.5.5.pl'))
+        'rouge_papier_v2', os.path.join('data', 'ROUGE-1.5.5.pl'))
     rouge_data_path = pkg_resources.resource_filename(
-        'rouge_papier', os.path.join('rouge_data'))
+        'rouge_papier_v2', os.path.join('rouge_data'))
 
     #-n 4 -m -a -l 100 -x -c 95
     #-r 1000 -f A -p 0.5 -t 0
